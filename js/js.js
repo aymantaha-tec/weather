@@ -1,9 +1,15 @@
+//  by Ayman Taha
+//   2/21/2023 
+
+
 // URL api 
 //const baseURl =  'http://api.weatherapi.com/v1/current.json';
 //const keyAPI =  '?key=11ba738006df470d83b151908232102&q='; // Enter Api 
 //let q = 'london';
 //let urlApi = baseURl + keyAPI;
 let content = document.getElementById('content');
+
+
 
 
 
@@ -17,68 +23,98 @@ let weathers = [];
 
 function getData(q) {
   let req = new XMLHttpRequest();
-  req.open('get', `http://api.weatherapi.com/v1/current.json?key=11ba738006df470d83b151908232102&q=${q}`);
+  req.open('get', `http://api.weatherapi.com/v1/forecast.json?key=11ba738006df470d83b151908232102&q=${q}&days=3`);
   req.send();
   req.addEventListener("loadend", function(){
     if (req.status ==200) {
       weathers = JSON.parse(req.response);
-      displayWeather()
+      displayWeather();
     }
   });
 }
 
 
+function getCurrentDay (){
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  let d =  new Date (weathers.location.localtime);
+  let day =  days[d.getDay()];
+  return day;
+}
+function getTomorrowDay (){
+  let d =  new Date (weathers.location.localtime);
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  let tomorrow =  days[d.getDay()+1];
+  return tomorrow;
+}
+function getAfterTomorrowDay (){
+  let d =  new Date (weathers.location.localtime);
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  let tomorrow =  days[d.getDay()+2];
+  return tomorrow;
+}
+
+function getCurrentDayAsNumber (){
+  let d =  new Date (weathers.location.localtime);
+  let day = d.getDate();
+  return day;
+}
+
+function getCurrentMonth (){
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  let m =  new Date (weathers.location.localtime);
+  let month =  months[m.getDay()];
+  return month;
+}
+
+
 function displayWeather() {
   let currentWeather = `
-
       <!-- col-1 -->
         <div class="col-md-4 bg-tem px-0 ">
-            <div class="time bg-day d-flex justify-content-between align-items-center px-3 py-3">
-              <div>monday</div>
-              <div>20February</div>
+          <div class="time bg-day d-flex justify-content-between align-items-center px-3 py-3">
+            <div>${getCurrentDay ()}</div>
+            <div>${getCurrentDayAsNumber ()} ${getCurrentMonth ()}</div>
+          </div>
+          <div class=" tem px-3 py-4">
+            <h4>${weathers.location.name}</h4>
+            <div class="d-flex flex-column" >
+              <h3 class="tem-dgree">${weathers.current.temp_c}&deg C</h3>
+            <div><img class="icon-current" src="${weathers.current.condition.icon}" alt="umberella"></div>
             </div>
-            <div class=" tem px-3 py-4">
-              <h4>${weathers.location.name}</h4>
-              <div class="d-flex flex-column" >
-                <h3 class="tem-dgree">${weathers.current.temp_c}&deg C</h3>
-              <div><img class="icon-current" src="${weathers.current.condition.icon}" alt="umberella"></div>
-              </div>
-              <h5>${weathers.current.condition.text}</h5>
-            </div>
-            <div class="detialis px-3 py-4 d-flex gap-3">
-              <div><img src="images/icon-umberella.png" alt="umberella"> 20%</div>
-              <div><img src="images/icon-wind.png" alt="wind"> ${weathers.current.gust_kph}km/h</div>
-              <div><img  style="transform: rotate(${windDegree(weathers.current.wind_dir)}deg)" src="images/icon-compass.png" alt="compass"> ${windDirection(weathers.current.wind_dir)}</div>
-            </div>
+            <h5>${weathers.current.condition.text}</h5>
+          </div>
+          <div class="detialis px-3 py-4 d-flex gap-3">
+            <div><img src="images/icon-umberella.png" alt="umberella"> 20%</div>
+            <div><img src="images/icon-wind.png" alt="wind"> ${weathers.current.gust_kph}km/h</div>
+            <div><img  style="transform: rotate(${windDegree(weathers.current.wind_dir)}deg)" src="images/icon-compass.png" alt="compass"> ${windDirection(weathers.current.wind_dir)}</div>
+          </div>
         </div>
         <!-- col-2 -->
         <div class="col-md-4 px-0 bg-tem-center">
-            <div class="time bg-day-center d-flex justify-content-center align-items-center px-3 py-3">
-              <div>monday</div>
-            </div>
-            <div class="tem d-flex flex-column align-items-center gap-3  mt-5 pt-4">
-              <div><img src="images/icon-umberella.png" alt="hhh"></div>
-              <h3>15'C</h3>
-              <div>10.4'C</div>
-              <h5>windvb</h5>
-            </div>
+          <div class="time bg-day-center d-flex justify-content-center align-items-center px-3 py-3">
+            <div>${getTomorrowDay()}</div>
+          </div>
+          <div class="tem d-flex flex-column align-items-center gap-3  mt-5 pt-4">
+            <div><img src="${weathers.forecast.forecastday[1].day.condition.icon}" alt="hhh"></div>
+            <h3>${weathers.forecast.forecastday[1].day.maxtemp_c}&deg C</h3>
+            <div>${weathers.forecast.forecastday[1].day.mintemp_c}&deg C</div>
+            <h5>${weathers.forecast.forecastday[1].day.condition.text}</h5>
+          </div>
         </div>
         <!-- col-3 -->
         <div class="col-md-4 px-0 bg-tem">
-            <div class="time bg-day d-flex justify-content-center align-items-center px-3 py-3">
-              <div>monday</div>
-            </div>
-            <div class="tem d-flex flex-column align-items-center gap-3  mt-5 pt-4">
-              <div><img src="images/icon-umberella.png" alt="hhh"></div>
-              <h3>15'C</h3>
-              <div>10.4'C</div>
-              <h5>sunny</h5>
-            </div>
+          <div class="time bg-day d-flex justify-content-center align-items-center px-3 py-3">
+            <div>${getAfterTomorrowDay()}</div>
+          </div>
+          <div class="tem d-flex flex-column align-items-center gap-3  mt-5 pt-4">
+            <div><img src="${weathers.forecast.forecastday[2].day.condition.icon}" alt="hhh"></div>
+            <h3>${weathers.forecast.forecastday[2].day.maxtemp_c}&deg C</h3>
+            <div>${weathers.forecast.forecastday[2].day.mintemp_c}&deg C</div>
+            <h5>${weathers.forecast.forecastday[2].day.condition.text}</h5>
+          </div>
         </div>
       <!-- end col-3 -->
-
   `
-
   content.innerHTML = currentWeather;
 }
 
