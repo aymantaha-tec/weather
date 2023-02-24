@@ -135,7 +135,9 @@ main {
   background-repeat: no-repeat;
   background-color: aqua !important;
 }
-
+.icon-current {
+  width: 100px;
+}
 .search + button {
   right: 12px;
   top: 33px;
@@ -184,6 +186,9 @@ h3 {
 h3 + div {
 margin-top: -20px;
 }
+.compass {
+  transition: 0.5s all ;
+}
 /* end main main */
 
 /* start header main */
@@ -209,4 +214,36 @@ margin-top: -20px;
 
 }
 /* end header main */
+
+
+
+
+/*start page conent */
+
+textarea {
+  height: 150px;
+  color: var(--pleaseholder);
+  padding: 15px;
+}
+.input-form {
+  padding: 15px;
+  border: 2px solid #393c48
+}
+.input-form:focus {
+  outline: none;
+  box-shadow: none;
+}
+.input-form::placeholder {
+  color: var(--pleaseholder);
+}
+
+.input-button {
+  background-color: var(--main-color);
+  color: var(--white-color);
+  width: fit-content;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+}
+/*end page conent */
 
