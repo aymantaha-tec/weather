@@ -6,8 +6,8 @@
   <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=".............">
     <meta name="keywords" content="..........">
@@ -44,7 +44,7 @@
           <div class="mobile-navigation collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="menu-ul navbar-nav ms-auto mb-2 mb-lg-0 ">
               <li class="nav-item ">
-                <a class="nav-weather nav-link  current-active" aria-current="page" href="index.html">Home</a>
+                <a class="nav-weather nav-link  " aria-current="page" href="index.html">Home</a>
               </li>
               <li class=" nav-item">
                 <a class="nav-weather  nav-link" href="#">News</a>
@@ -56,7 +56,7 @@
                 <a class="nav-weather nav-link" href="#">Photos</a>
               </li>
               <li class="nav-item ">
-                <a class="nav-weather nav-link" href="#">Contact</a>
+                <a class="nav-weather nav-link current-active" href="#">Contact</a>
               </li>
             </ul>
           </div>
@@ -73,9 +73,19 @@
         </nav>
         <div class="content text-white">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 my-4">
               <div>
-                <div>map</div>
+                <div id="map">
+                  
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110550.39964813004!2d31.259683542352672!3d30.016769756486905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458469235579697%3A0x4e91d61f9878fc52!2z2KfZhNis2YrYstip2Iwg2YLYs9mFINin2YTYudmF2LHYp9mG2YrYqdiMINin2YTYrNmK2LLYqQ!5e0!3m2!1sar!2seg!4v1677261324522!5m2!1sar!2seg"
+                  width="350"
+                  height="200"
+                  style="border:0;" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                </div>
                 <div>
                   <div>
                     <i class="fa-solid fa-location-dot"></i>
@@ -99,12 +109,40 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 my-4">
 
+              <div class="content">
+                <h3>Contact us</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi consectetur
+                  inventore ducimus, facilis, numquam id soluta omnis eius recusandae nesciunt
+                  vero repellat harum cum. Nisi facilis odit hic, ipsum sed!
+                </p>
+              </div>
+              <div class="row g-3"> <!-- Start form -->
+                <div class="col-md-6">
+                  <input type="text" class="form-control rounded-pill bg-transparent text-white input-form" placeholder="Your name..." >
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control rounded-pill bg-transparent text-white input-form" placeholder="Email Addresss..." >
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control rounded-pill bg-transparent text-white input-form" placeholder="Company name...">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control rounded-pill bg-transparent text-white input-form" placeholder="Website...">
+                </div>
+                <div class="col-md-12">
+                  <textarea class="form-control rounded-4 bg-transparent text-white input-form" placeholder="Message..." ></textarea>
+                </div>
+                <div class=" d-flex justify-content-end">
+                  <button class="input-button">Submit</button>
+              </div> <!-- End form -->
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
     <footer class="bg-day py-5">
       <div class="container">
