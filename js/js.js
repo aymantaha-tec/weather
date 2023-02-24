@@ -3,69 +3,74 @@
 
 
 // URL api 
-//const baseURl =  'http://api.weatherapi.com/v1/current.json';
-//const keyAPI =  '?key=11ba738006df470d83b151908232102&q='; // Enter Api 
+const baseURl =  'http://api.weatherapi.com/v1/forecast.json';
+const keyAPI =  '?key=11ba738006df470d83b151908232102&q='; // Enter Api 
 //let q = 'london';
-//let urlApi = baseURl + keyAPI;
+let urlApi = baseURl + keyAPI;
 let content = document.getElementById('content');
-
-
-
-
 
 
 // slected elemrnts HTMl
 let search = document.getElementById('search');
-
+let allList = document.querySelectorAll("ul li a");
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 
 let weathers = [];
 
 function getData(q) {
   let req = new XMLHttpRequest();
-  req.open('get', `http://api.weatherapi.com/v1/forecast.json?key=11ba738006df470d83b151908232102&q=${q}&days=3`);
+  req.open('get', `${urlApi}${q}&days=3`);
   req.send();
   req.addEventListener("loadend", function(){
     if (req.status ==200) {
       weathers = JSON.parse(req.response);
+      console.log(weathers);
       displayWeather();
     }
   });
 }
 
+getData("cairo")
 
-function getCurrentDay (){
-  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function d(){
   let d =  new Date (weathers.location.localtime);
-  let day =  days[d.getDay()];
+  return d;
+}
+
+function getCurrentDay(){
+  let day =  days[d().getDay()];
+  console.log(day);
   return day;
-}
-function getTomorrowDay (){
-  let d =  new Date (weathers.location.localtime);
-  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  let tomorrow =  days[d.getDay()+1];
-  return tomorrow;
-}
-function getAfterTomorrowDay (){
-  let d =  new Date (weathers.location.localtime);
-  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  let tomorrow =  days[d.getDay()+2];
-  return tomorrow;
-}
+};
 
-function getCurrentDayAsNumber (){
-  let d =  new Date (weathers.location.localtime);
-  let day = d.getDate();
+function getTomorrowDay(){
+  let tomorrow =  days[d().getDay()+1];
+  if (days[d().getDay()+1]== undefined){
+    tomorrow = days[0];
+  }
+  return tomorrow;
+};
+
+function getAfterTomorrowDay(){
+  let afterTomorrow =  days[d().getDay()+2];
+  if(days[d().getDay()+2] == undefined){
+    afterTomorrow =  days[0];
+  }
+  console.log(afterTomorrow);
+  return afterTomorrow;
+};
+
+function getCurrentDayAsNumber(){
+  let day = d().getDate();
   return day;
 }
 
 function getCurrentMonth (){
   const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  let m =  new Date (weathers.location.localtime);
-  let month =  months[m.getDay()];
+  let month =  months[d().getDay()];
   return month;
 }
-
 
 function displayWeather() {
   let currentWeather = `
@@ -224,4 +229,18 @@ function windDegree(degree) {
   else if (degree == 'NNW') {
     return degree = 337.5
   }
-}
+};
+
+
+
+allList.forEach(ele => {
+  ele.onclick =function(){
+    // Remove Avtion Class From All Elements
+    allList.forEach(ele => {
+      ele.classList.remove("current-active")
+    });
+    // Add Active Class To This Element
+    this.classList.add('current-active')
+  };
+});
+
