@@ -1,13 +1,15 @@
 //  by Ayman Taha
 //   2/21/2023 
 
+    
 
 // URL api 
 const baseURl =  'http://api.weatherapi.com/v1/forecast.json';
 const keyAPI =  '?key=11ba738006df470d83b151908232102&q='; // Enter Api 
-//let q = 'london';
+let city = 'cairo';        //  change "cairo" to "City forecast when the site opens"
 let urlApi = baseURl + keyAPI;
-let content = document.getElementById('content');
+
+let contentWeather = document.getElementById('content-weather');
 
 
 // slected elemrnts HTMl
@@ -18,6 +20,7 @@ const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Satur
 
 let weathers = [];
 
+//function is using the XMLHttpRequest API to make a GET request to the specified URL
 function getData(q) {
   let req = new XMLHttpRequest();
   req.open('get', `${urlApi}${q}&days=3`);
@@ -25,25 +28,28 @@ function getData(q) {
   req.addEventListener("loadend", function(){
     if (req.status ==200) {
       weathers = JSON.parse(req.response);
-      console.log(weathers);
       displayWeather();
+      console.log(req)
     }
   });
-}
+};
 
-getData("cairo")
+getData(city);
 
+// Used to display the current date of the API ex "2-27-2023"
 function d(){
   let d =  new Date (weathers.location.localtime);
   return d;
 }
 
+// Used to display the current day of the API ex: "Sunday"
 function getCurrentDay(){
   let day =  days[d().getDay()];
   console.log(day);
   return day;
 };
 
+//Used to display the tomorrow day of the API ex: "Monday"
 function getTomorrowDay(){
   let tomorrow =  days[d().getDay()+1];
   if (days[d().getDay()+1]== undefined){
@@ -52,6 +58,7 @@ function getTomorrowDay(){
   return tomorrow;
 };
 
+//Used to display the after tomorrow day of the API ex: "Tuesday"
 function getAfterTomorrowDay(){
   let afterTomorrow =  days[d().getDay()+2];
   if(days[d().getDay()+2] == undefined){
@@ -61,17 +68,20 @@ function getAfterTomorrowDay(){
   return afterTomorrow;
 };
 
+// Used for convert day as number "from 0 to 6 " to "Sunday to Saturday "
 function getCurrentDayAsNumber(){
   let day = d().getDate();
   return day;
 }
 
+// Used to display the current month of the API ex: "August"
 function getCurrentMonth (){
   const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   let month =  months[d().getDay()];
   return month;
 }
 
+// Used to display All data to web site
 function displayWeather() {
   let currentWeather = `
       <!-- col-1 -->
@@ -89,7 +99,7 @@ function displayWeather() {
             <h5>${weathers.current.condition.text}</h5>
           </div>
           <div class="detialis px-3 py-4 d-flex gap-3">
-            <div><img src="images/icon-umberella.png" alt="umberella"> 20%</div>
+            <div><img src="images/icon-umberella.png" alt="umberella"> ${weathers.current.humidity}%</div>
             <div><img src="images/icon-wind.png" alt="wind"> ${weathers.current.gust_kph}km/h</div>
             <div><img  style="transform: rotate(${windDegree(weathers.current.wind_dir)}deg)" src="images/icon-compass.png" alt="compass"> ${windDirection(weathers.current.wind_dir)}</div>
           </div>
@@ -120,9 +130,12 @@ function displayWeather() {
         </div>
       <!-- end col-3 -->
   `
-  content.innerHTML = currentWeather;
-}
+  contentWeather.innerHTML = currentWeather;
+  
+};
 
+
+// Used for  convert wind direction from short to full name ex: "N to north"
 function windDirection(windDir) {
   if (windDir == 'N') {
     return windDir = "North"
@@ -177,6 +190,7 @@ function windDirection(windDir) {
   }
 };
 
+//  The change of the icon according to the direction of the wind depends on  function  windDirection
 function windDegree(degree) {
   if (degree == 'N') {
   return degree = 0;
